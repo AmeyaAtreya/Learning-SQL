@@ -114,3 +114,26 @@ WHERE c.id IS NULL OR o.customer_id IS NULL;
 
 -- CROSS JOIN: give cartesian product
 SELECT * FROM customers CROSS JOIN orders;
+
+/*  ================================ 
+	 Multiple Table Join (4 Tables)
+    ================================
+*/
+
+use SalesDB;
+SELECT 
+    o.OrderID,
+    o.Sales,
+    c.FirstName AS CustomerFirstName,
+    c.LastName AS CustomerLastName,
+    p.Product AS ProductName,
+    p.Price,
+    e.FirstName AS EmployeeFirstName,
+    e.LastName AS EmployeeLastName
+FROM SalesDB.Orders AS o
+LEFT JOIN SalesDB.Customers AS c
+ON o.CustomerID = c.CustomerID
+LEFT JOIN SalesDB.Products AS p
+ON o.ProductID = p.ProductID
+LEFT JOIN SalesDB.Employees AS e
+ON o.SalesPersonID = e.EmployeeID;
