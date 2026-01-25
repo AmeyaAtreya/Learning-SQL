@@ -33,18 +33,16 @@ left join customers c
 on c.id = o.customer_id;
 
 -- FULL JOIN 
--- Get all customers and all orders, even if there’s no match (MySQL doesn't support FULL JOIN)
-select c.id, c.first_name, o.order_id, o.sales
-from customers c
-left join orders o 
-on c.id = o.customer_id
+-- Get all customers and all orders, even if there’s no match (MySQL doen't support FULL JOIN)
+SELECT c.id, c.first_name, o.order_id, o.sales
+FROM customers AS c
+LEFT JOIN orders AS o ON c.id = o.customer_id
 
 UNION
 
-select c.id, c.first_name, o.order_id, o.sales
-from customers c
-right join orders o 
-on c.id = o.customer_id;
+SELECT c.id, c.first_name, o.order_id, o.sales
+FROM customers AS c
+RIGHT JOIN orders AS o ON c.id = o.customer_id;
 
 /* 
 SELECT
@@ -56,4 +54,57 @@ SELECT
 FROM customers AS c
 FULL JOIN orders AS o
 ON c.id = o.customer_id
+*/
+
+/*  ==================== 
+	Advanced Join
+    ==================== 
+*/
+
+-- LEFT ANTI JOIN
+select c.id, c.first_name, o.order_id, o.sales
+from customers c 
+left join orders o
+on c.id = o.customer_id
+where o.customer_id is NULL;
+
+-- RIGHT ANTI JOIN
+select c.id, c.first_name, o.order_id, o.customer_id, o.sales
+from customers c 
+right join orders o
+on c.id = o.customer_id
+where c.id is NULL;
+
+-- or implementing right join using left join 
+select c.id, c.first_name, o.order_id, o.sales
+from  orders o
+left join customers c
+on c.id = o.customer_id where c.id is NULL;
+
+-- FULL ANTI JOIN
+select c.id, c.first_name, o.order_id, o.sales
+from customers c 
+left join orders o
+on c.id = o.customer_id
+where o.customer_id is NULL
+
+UNION
+
+select c.id, c.first_name, o.order_id, o.sales
+from customers c 
+right join orders o
+on c.id = o.customer_id
+where c.id is NULL;
+
+/*
+SELECT
+    c.id,
+    c.first_name,
+    o.order_id,
+    o.customer_id
+    o.sales
+FROM customers AS c
+FULL JOIN orders AS o
+ON c.id = o.customer_id
+WHERE c.id IS NULL OR o.customer_id IS NULL;
 */
