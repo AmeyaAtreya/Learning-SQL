@@ -62,6 +62,7 @@ ON c.id = o.customer_id
 */
 
 -- LEFT ANTI JOIN
+-- Get all customers who haven't placed any order
 select c.id, c.first_name, o.order_id, o.sales
 from customers c 
 left join orders o
@@ -69,19 +70,21 @@ on c.id = o.customer_id
 where o.customer_id is NULL;
 
 -- RIGHT ANTI JOIN
+-- Get all orders without matching customers
 select c.id, c.first_name, o.order_id, o.customer_id, o.sales
 from customers c 
 right join orders o
 on c.id = o.customer_id
 where c.id is NULL;
 
--- or implementing right join using left join 
+-- or implementing right join using left anti join 
 select c.id, c.first_name, o.order_id, o.sales
 from  orders o
 left join customers c
 on c.id = o.customer_id where c.id is NULL;
 
 -- FULL ANTI JOIN
+-- Find customers without orders and orders without customers
 select c.id, c.first_name, o.order_id, o.sales
 from customers c 
 left join orders o
